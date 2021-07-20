@@ -1,9 +1,31 @@
 version: "3.9"
 services:
+  kitchen-service:
+    build: ./kitchen-service
+    environment: 
+        - ORDER_SERVICE_URL: 'http://order-service:3000'
+    ports:
+        - "3000:3000"
+  payment-service:
+    build: ./payment-service
+    environment: 
+        - ORDER_SERVICE_URL: 'http://order-service:3000'
+    ports:
+        - "3000:3000"
+  delivery-service:
+    build: ./delivery-service
+    environment: 
+        - ORDER_SERVICE_URL: 'http://order-service:3000'
+    ports:
+        - "3000:3000"
   order-service:
     build: ./order-service
+    environmenti: 
+        - KITCHEN_SERVICE_URL: 'http://kitchen-service:3000'
+        - PAYMENT_SERVICE_URL: 'http://payment-service:3000'
+        - DELIVERY_SERVICE_URL: 'http://delivery-service:3000'
     ports:
-      - "3000:3000"
+        - "3000:3000"
   order-service-db:
     image: postgres
     environment:
@@ -11,7 +33,6 @@ services:
             POSTGRES_USER: admin
             POSTGRES_PASSWORD: admin
     ports:
-      - "5432:5432"
-    restart: always
+        - "5432:5432"
 
 
