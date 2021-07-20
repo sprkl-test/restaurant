@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  order-service:
+    build: ./order-service
+    ports:
+      - "3000:3000"
+  order-service-db:
+    image: postgres
+    environment:
+            POSTGRES_DATABASE: orders
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    restart: always
+
+
