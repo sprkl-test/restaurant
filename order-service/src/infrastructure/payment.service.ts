@@ -5,9 +5,10 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class PaymentService {
   constructor(private readonly httpService: HttpService) {}
-  async pay(creditCard: string, amount: number): Promise<void> {
+  async pay(id: number, creditCard: string, amount: number): Promise<void> {
     await firstValueFrom(
-      this.httpService.post(`${process.env.PAYMENT_SERVICE_URL}/pay`, {
+      this.httpService.post(`${process.env.PAYMENT_SERVICE_URL}`, {
+        id,
         creditCard,
         amount,
       }),

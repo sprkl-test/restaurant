@@ -30,4 +30,24 @@ export class OrderController {
       );
     return status;
   }
+
+  @Post(':id/paymentAccepted')
+  async paymentAccepted(@Param('id') id: number): Promise<void> {
+    await this.orderService.orderPaymentAccepted(id);
+  }
+
+  @Post(':id/paymentRejected')
+  async paymentRejected(@Param('id') id: number): Promise<void> {
+    await this.orderService.orderPaymentRejected(id);
+  }
+
+  @Post(':id/cooked')
+  async cooked(@Param('id') id: number): Promise<void> {
+    await this.orderService.orderCooked(id);
+  }
+
+  @Post(':id/delivered')
+  async delivered(@Param('id') id: number): Promise<void> {
+    await this.orderService.orderDelivered(id);
+  }
 }

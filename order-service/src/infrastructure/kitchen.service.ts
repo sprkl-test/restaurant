@@ -10,7 +10,7 @@ export class KitchenService {
     items: { [item: string]: number },
   ): Promise<void> {
     await firstValueFrom(
-      this.httpService.post(`${process.env.KITCHEN_SERVICE_URL}/order`, {
+      this.httpService.post(`${process.env.KITCHEN_SERVICE_URL}`, {
         id,
         items,
       }),

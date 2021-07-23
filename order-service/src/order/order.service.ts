@@ -24,7 +24,7 @@ export class OrderService {
     order.status = OrderStatus.PLACED;
     const id = (await this.ordersRepository.save(order)).id;
     const amount = Object.values(order.items).reduce((a, b) => a + b, 0);
-    await this.paymentService.pay(order.creditCard, amount);
+    await this.paymentService.pay(id, order.creditCard, amount);
     return id;
   }
 

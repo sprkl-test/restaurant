@@ -1,12 +1,21 @@
-import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { HttpService } from '@nestjs/axios';
+import { Body, Controller, Post } from '@nestjs/common';
+import { firstValueFrom } from 'rxjs';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
+  constructor(private readonly httpService: HttpService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @Post()
+  async cook(
+    @Body() order: { id: number; items: { [item: string]: number } },
+  ): Promise<void> {
+    setTimeout(async () => {
+      await firstValueFrom(
+        this.httpService.post(
+          `${process.env.ORDER_SERVICE_URL}/order/${order.id}/cooked`,
+        ),
+      );
+    }, 10000);
   }
 }
