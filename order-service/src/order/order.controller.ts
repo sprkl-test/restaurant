@@ -10,6 +10,7 @@ import {
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrderStatus } from './entities/order.entity';
+import { context, trace } from '@opentelemetry/api';
 
 @Controller('order')
 export class OrderController {
@@ -17,6 +18,8 @@ export class OrderController {
 
   @Post()
   async create(@Body() createOrderDto: CreateOrderDto): Promise<number> {
+    const span = trace.getSpan(context.active());
+    span.setAttribute('commit', 'none');
     return await this.orderService.create(createOrderDto);
   }
 

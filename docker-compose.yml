@@ -24,6 +24,7 @@ services:
         - KITCHEN_SERVICE_URL=http://kitchen-service:3000
         - PAYMENT_SERVICE_URL=http://payment-service:3000
         - DELIVERY_SERVICE_URL=http://delivery-service:3000
+        - ZIPKIN_BACKEND_URL=http://zipkin:9411
     ports:
         - "3000:3000"
   order-service-db:
@@ -34,5 +35,20 @@ services:
             POSTGRES_PASSWORD: admin
     ports:
         - "5432:5432"
-
-
+  otel-collector:
+    image: otel/opentelemetry-collector
+    command: ["--config=/otel-collector.config.yml"]
+    volumes:
+        - ./otel-collector-config.yml
+    ports: 
+        - "4317:4317"
+        - "9411"
+        - "1888:1888"
+        - "13133:13133"
+        - "55679:55679"
+    depends_on:
+        - zipkin
+  zipkin:
+    image: openzipkin/zipkin
+    ports:
+        - "9411:9411"
