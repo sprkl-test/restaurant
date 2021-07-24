@@ -1,20 +1,23 @@
-import { NodeTracerProvider } from '@opentelemetry/node';
 import { registerInstrumentations } from '@opentelemetry/instrumentation';
 import { ExpressInstrumentation } from '@opentelemetry/instrumentation-express';
 import { HttpInstrumentation } from '@opentelemetry/instrumentation-http';
 
-import { SimpleSpanProcessor } from '@opentelemetry/tracing';
-import { ZipkinExporter } from '@opentelemetry/exporter-zipkin';
+import { Resource } from '@opentelemetry/resources';
+import { BatchSpanProcessor } from '@opentelemetry/tracing';
+import { CollectorTraceExporter } from '@opentelemetry/exporter-collector';
+import { NodeTracerProvider } from '@opentelemetry/node';
 
 export const tracing = () => {
-  const provider: NodeTracerProvider = new NodeTracerProvider();
-  provider.addSpanProcessor(
-    new SimpleSpanProcessor(
-      new ZipkinExporter({
-        url: `${process.env.ZIPKIN_BACKEND_URL}/api/v2/spans`,
-      }),
-    ),
-  );
+  const provider = new NodeTracerProvider({
+    resource: new Resource({
+      'service.name': 'delivery-service',
+      application: 'restaurant',
+    }),
+  });
+  const exporter = new CollectorTraceExporter({
+    url: `${process.env.OTEL_COLLECTOR_URL}`,
+  });
+  provider.addSpanProcessor(new BatchSpanProcessor(exporter));
 
   provider.register();
 

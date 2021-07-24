@@ -4,18 +4,21 @@ services:
     build: ./kitchen-service
     environment: 
         - ORDER_SERVICE_URL=http://order-service:3000
+        - OTEL_COLLECTOR_URL=http://otel-collector:55681/v1/trace
     ports:
         - "3001:3000"
   payment-service:
     build: ./payment-service
     environment: 
         - ORDER_SERVICE_URL=http://order-service:3000
+        - OTEL_COLLECTOR_URL=http://otel-collector:55681/v1/trace
     ports:
         - "3002:3000"
   delivery-service:
     build: ./delivery-service
     environment: 
         - ORDER_SERVICE_URL=http://order-service:3000
+        - OTEL_COLLECTOR_URL=http://otel-collector:55681/v1/trace
     ports:
         - "3003:3000"
   order-service:
@@ -24,7 +27,7 @@ services:
         - KITCHEN_SERVICE_URL=http://kitchen-service:3000
         - PAYMENT_SERVICE_URL=http://payment-service:3000
         - DELIVERY_SERVICE_URL=http://delivery-service:3000
-        - ZIPKIN_BACKEND_URL=http://zipkin:9411
+        - OTEL_COLLECTOR_URL=http://otel-collector:55681/v1/trace
     ports:
         - "3000:3000"
   order-service-db:
@@ -37,15 +40,13 @@ services:
         - "5432:5432"
   otel-collector:
     image: otel/opentelemetry-collector
-    command: ["--config=/otel-collector.config.yml"]
+    command: ["--config=/conf/otel-collector-config.yml"]
     volumes:
-        - ./otel-collector-config.yml
+        - ./otel-collector-config.yml:/conf/otel-collector-config.yml
     ports: 
-        - "4317:4317"
-        - "9411"
-        - "1888:1888"
-        - "13133:13133"
-        - "55679:55679"
+        - "9464:9464"
+        - "55680:55680"
+        - "55681:55681"
     depends_on:
         - zipkin
   zipkin:
