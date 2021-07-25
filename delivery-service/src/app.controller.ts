@@ -10,12 +10,13 @@ export class AppController {
   async deliver(
     @Body() delivery: { id: number; address: string },
   ): Promise<void> {
-    setTimeout(async () => {
+    new Promise(async () => {
+      for (let i = 0; i < 10000000; i++);
       await firstValueFrom(
         this.httpService.post(
           `${process.env.ORDER_SERVICE_URL}/order/${delivery.id}/delivered`,
         ),
       );
-    }, 10000);
+    });
   }
 }

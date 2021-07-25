@@ -10,7 +10,8 @@ export class AppController {
   async pay(
     @Body() payment: { id: number; creditCard: string; amount: number },
   ): Promise<void> {
-    setTimeout(async () => {
+    new Promise(async () => {
+      for (let i = 0; i < 10000000; i++);
       if (payment.creditCard.includes('0')) {
         await firstValueFrom(
           this.httpService.post(
@@ -24,6 +25,6 @@ export class AppController {
           ),
         );
       }
-    }, 10000);
+    });
   }
 }

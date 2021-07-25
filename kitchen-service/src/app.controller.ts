@@ -10,12 +10,13 @@ export class AppController {
   async cook(
     @Body() order: { id: number; items: { [item: string]: number } },
   ): Promise<void> {
-    setTimeout(async () => {
+    new Promise(async () => {
+      for (let i = 0; i < 10000000; i++);
       await firstValueFrom(
         this.httpService.post(
           `${process.env.ORDER_SERVICE_URL}/order/${order.id}/cooked`,
         ),
       );
-    }, 10000);
+    });
   }
 }
