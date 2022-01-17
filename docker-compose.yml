@@ -4,21 +4,18 @@ services:
     build: ./kitchen-service
     environment: 
         - ORDER_SERVICE_URL=http://order-service:3000
-        - OTEL_COLLECTOR_URL=http://otel-collector:55681/v1/trace
     ports:
         - "3001:3000"
   payment-service:
     build: ./payment-service
     environment: 
         - ORDER_SERVICE_URL=http://order-service:3000
-        - OTEL_COLLECTOR_URL=http://otel-collector:55681/v1/trace
     ports:
         - "3002:3000"
   delivery-service:
     build: ./delivery-service
     environment: 
         - ORDER_SERVICE_URL=http://order-service:3000
-        - OTEL_COLLECTOR_URL=http://otel-collector:55681/v1/trace
     ports:
         - "3003:3000"
   order-service:
@@ -27,7 +24,6 @@ services:
         - KITCHEN_SERVICE_URL=http://kitchen-service:3000
         - PAYMENT_SERVICE_URL=http://payment-service:3000
         - DELIVERY_SERVICE_URL=http://delivery-service:3000
-        - OTEL_COLLECTOR_URL=http://otel-collector:55681/v1/trace
     ports:
         - "3000:3000"
   order-service-db:
@@ -53,3 +49,9 @@ services:
     image: openzipkin/zipkin
     ports:
         - "9411:9411"
+  jaeger-all-in-one:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268"
+      - "14250"

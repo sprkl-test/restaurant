@@ -1,0 +1,28 @@
+{
+  "name": "restaurant",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "order-service:sprkl":  "cd order-service && npm i --save-dev sprkl && npm i && ./node_modules/.bin/sprkl apply -a 100",
+    "payment-service:sprkl":  "cd payment-service && npm i --save-dev sprkl && npm i && ./node_modules/.bin/sprkl apply -a 100",
+    "kitchen-service:sprkl":  "cd kitchen-service && npm i --save-dev sprkl && npm i && ./node_modules/.bin/sprkl apply -a 100",
+    "delivery-service:sprkl":  "cd delivery-service && npm i --save-dev sprkl && npm i && ./node_modules/.bin/sprkl apply -a 100",
+    "prestart": "concurrently \"npm run order-service:sprkl\" && \"npm run payment-service:sprkl\" && \"npm run kitchen-service:sprkl\" && \"npm run delivery-service:sprkl\"",
+    "start": "docker compose up --build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HimiXu/restaurant.git"
+  },
+  "keywords": [],
+  "author": "razcoen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HimiXu/restaurant/issues"
+  },
+  "homepage": "https://github.com/HimiXu/restaurant#readme",
+  "dependencies": {
+    "sprkl": "^0.0.10"
+  }
+}
