@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServicesModule } from './infrastructure/services.module';
 import { Order } from './order/entities/order.entity';
@@ -9,7 +8,6 @@ import { OrderModule } from './order/order.module';
   imports: [
     OrderModule,
     ServicesModule,
-    ConfigModule.forRoot({ envFilePath: './postgres.env' }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.PG_HOST,

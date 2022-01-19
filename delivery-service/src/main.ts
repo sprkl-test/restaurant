@@ -1,5 +1,5 @@
-import { init } from 'sprkl';
-init({ serviceName: 'DeliveryService', agent: { host: 'otel-collector' } });
+import { init } from '@sprkl/sprkl';
+init({ serviceName: 'DeliveryService', agent: { host: 'e2e-otel-collector' } });
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 

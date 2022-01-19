@@ -1,4 +1,4 @@
-FROM node
+FROM sprkl/npm
 
 WORKDIR /app
 
@@ -6,4 +6,4 @@ COPY . .
 
 EXPOSE 3000
 
-CMD [ "npm", "start" ]
+RUN npm link @sprkl/sprkl
