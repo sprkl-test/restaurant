@@ -1,5 +1,6 @@
 import { init } from '@sprkl/sprkl';
-init({ serviceName: 'KitchenService', agent: { host: 'e2e-otel-collector' } });
+const process = require('process');
+init({ serviceName: 'KitchenService', agent: { host: process.env['SPRKL_AGENT'] } });
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
