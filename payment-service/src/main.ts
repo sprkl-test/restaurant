@@ -1,6 +1,3 @@
-import { init } from '@sprkl/sprkl';
-const process = require('process');
-init({ serviceName: 'PaymentService', agent: { host: process.env['SPRKL_AGENT'] } });
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
